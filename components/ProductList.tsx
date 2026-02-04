@@ -1,7 +1,6 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface Product {
   id: number;
@@ -68,19 +67,20 @@ const container = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.15,
+      staggerChildren: 0.1,
+      delayChildren: 0.2
     },
   },
 };
 
 const itemVariant = {
-  hidden: { opacity: 0, y: 50 },
+  hidden: { opacity: 0, y: 40 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.8,
-      ease: [0.22, 1, 0.36, 1],
+      duration: 1.0,
+      ease: [0.22, 1, 0.36, 1] as const,
     },
   },
 };
@@ -90,53 +90,80 @@ interface ProductListProps {
 }
 
 export const ProductList: React.FC<ProductListProps> = ({ onProductClick }) => {
+  const [hoveredId, setHoveredId] = useState<number | null>(null);
+
   return (
     <section id="shop" className="mx-auto max-w-[1440px] px-6 py-24 md:px-10 lg:px-24">
-      
+
       {/* Page Heading */}
-      <div className="flex flex-col items-center justify-center text-center mb-20 md:mb-32 max-w-2xl mx-auto space-y-6">
-        <h2 className="font-serif text-5xl md:text-6xl text-[#111815] font-medium tracking-tight">Wardrobe</h2>
-        <div className="w-12 h-[1px] bg-[#14b881]/40"></div>
-        <p className="text-[#63756d] text-base md:text-lg leading-relaxed font-light max-w-lg">
-            A study in restraint. Our permanent collection is produced in limited quantities to ensure minimal waste and maximum attention to detail.
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="flex flex-col items-center justify-center text-center mb-20 md:mb-32 max-w-2xl mx-auto space-y-6"
+      >
+        <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Pre-Fall 2026</span>
+        <h2 className="font-serif text-5xl md:text-7xl text-text-main font-light tracking-tight">Wardrobe</h2>
+        <div className="w-16 h-[1px] bg-text-main/20"></div>
+        <p className="text-text-muted text-base md:text-lg leading-relaxed font-light max-w-md">
+          A study in restraint. Limited quantities ensuring minimal waste and intentional design.
         </p>
-      </div>
+      </motion.div>
 
       {/* Product Grid */}
       <motion.div
-        className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-16 md:gap-x-16 md:gap-y-24 lg:gap-x-24"
+        className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-20 md:gap-x-12 md:gap-y-32 lg:gap-x-20"
         variants={container}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={{ once: true, margin: "-10%" }}
       >
         {products.map((product, index) => (
           <motion.div
             key={product.id}
-            className={`group cursor-pointer flex flex-col gap-4 ${index % 2 !== 0 ? 'md:mt-16' : ''}`}
+            className={`group cursor-pointer flex flex-col gap-6 ${index % 2 !== 0 ? 'md:mt-24' : ''}`}
             variants={itemVariant}
             onClick={onProductClick}
+            onMouseEnter={() => setHoveredId(product.id)}
+            onMouseLeave={() => setHoveredId(null)}
+            animate={{
+              opacity: hoveredId && hoveredId !== product.id ? 0.4 : 1,
+              scale: hoveredId === product.id ? 1.0 : 1.0
+            }}
+            transition={{ duration: 0.4 }}
           >
-            <div className="relative w-full aspect-[4/5] overflow-hidden bg-[#f0f4f3] rounded-sm">
+            <div className="relative w-full aspect-[3/4] overflow-hidden bg-background-subtle rounded-sm">
               {/* Main Image */}
-              <div 
-                className="absolute inset-0 bg-center bg-cover transition-transform duration-1000 ease-out group-hover:scale-105"
+              <div
+                className="absolute inset-0 bg-center bg-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110"
                 style={{ backgroundImage: `url('${product.image}')` }}
                 aria-label={product.alt}
               />
               {/* Secondary Image (Hover) */}
-              <div 
-                className="absolute inset-0 bg-center bg-cover z-10 opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100"
+              <div
+                className="absolute inset-0 bg-center bg-cover z-10 opacity-0 transition-opacity duration-500 ease-in-out group-hover:opacity-100"
                 style={{ backgroundImage: `url('${product.hoverImage}')` }}
                 aria-label={`${product.alt} detail`}
               />
+
+              {/* Overlay on Hover */}
+              <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+              <div className="absolute bottom-4 left-4 z-20 overflow-hidden">
+                <div className="translate-y-full transition-transform duration-500 group-hover:translate-y-0">
+                  <span className="inline-block bg-white/90 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-text-main backdrop-blur-sm">
+                    Quick Add
+                  </span>
+                </div>
+              </div>
             </div>
 
-            <div className="flex justify-between items-baseline pt-2">
-              <h3 className="font-serif text-xl md:text-2xl text-[#111815] tracking-wide group-hover:text-[#14b881] transition-colors duration-300">
+            <div className="flex flex-col items-center text-center space-y-1">
+              <h3 className="font-serif text-2xl text-text-main tracking-normal group-hover:text-primary transition-colors duration-300">
                 {product.name}
               </h3>
-              <span className="text-sm md:text-base font-medium text-[#63756d] font-sans">
+              <span className="text-sm font-medium text-text-muted font-sans tracking-wide">
                 {product.price}
               </span>
             </div>
@@ -145,12 +172,17 @@ export const ProductList: React.FC<ProductListProps> = ({ onProductClick }) => {
       </motion.div>
 
       {/* Pagination / Load More */}
-      <div className="flex justify-center mt-32">
-        <button className="group flex items-center gap-2 text-[#63756d] hover:text-[#111815] transition-colors uppercase tracking-widest text-xs font-semibold">
-          <ChevronDown className="h-5 w-5 transition-transform group-hover:translate-y-1" />
-          Load More
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ delay: 0.5, duration: 1 }}
+        className="flex justify-center mt-32"
+      >
+        <button className="group flex flex-col items-center gap-2 text-text-muted hover:text-text-main transition-colors uppercase tracking-[0.2em] text-[10px] font-bold">
+          <span>View All</span>
+          <ChevronDown className="h-4 w-4 transition-transform group-hover:translate-y-1" />
         </button>
-      </div>
+      </motion.div>
     </section>
   );
 };

@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Lookbook } from './components/Lookbook';
@@ -59,74 +60,105 @@ const App: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // If in checkout mode, render the isolated checkout view
-  if (view === 'checkout') {
-    return (
-      <Checkout 
-        onBack={navigateToShop} 
-        onComplete={navigateToOrderConfirmed}
-        darkMode={false} // Force light mode or manage based on previous context if desired
-      />
-    );
-  }
-
-  // If order confirmed, render the success page
-  if (view === 'order-confirmed') {
-    return (
-      <OrderConfirmed 
-        onNavigateHome={navigateToHome}
-        darkMode={false}
-      />
-    );
-  }
-
   return (
-    <div className={`relative flex min-h-screen w-full flex-col overflow-hidden font-sans selection:bg-[#14b881]/30 ${view === 'archives' ? 'bg-[#1A1A1E]' : 'text-[#111815]'}`}>
-      <Navbar 
-        onNavigateHome={navigateToHome} 
-        onNavigateStory={navigateToStory} 
-        onNavigateArchives={navigateToArchives}
-        onNavigateShop={navigateToShop}
-        onNavigateAbout={navigateToAbout}
-        onOpenBag={() => setIsBagOpen(true)}
-        darkMode={view === 'archives'}
-      />
-      <main className="flex-grow pt-16">
-        {view === 'home' && (
-          <>
-            <div className="-mt-16">
-              <Hero />
-            </div>
-            <Lookbook />
-            <Editorial />
-            <Story onReadStory={navigateToStory} />
-          </>
+    <div className={`relative flex min-h-screen w-full flex-col overflow-hidden font-sans selection:bg-primary-light/30 ${view === 'archives' ? 'bg-[#1A1A1E]' : 'bg-background-light text-text-main'}`}>
+      <AnimatePresence mode="wait">
+        {view === 'checkout' ? (
+          <motion.div
+            key="checkout"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }}
+            className="w-full h-full flex-grow"
+          >
+            <Checkout
+              onBack={navigateToShop}
+              onComplete={navigateToOrderConfirmed}
+              darkMode={false}
+            />
+          </motion.div>
+        ) : view === 'order-confirmed' ? (
+          <motion.div
+            key="order-confirmed"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="w-full h-full flex-grow"
+          >
+            <OrderConfirmed
+              onNavigateHome={navigateToHome}
+              darkMode={false}
+            />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="standard-layout"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="contents"
+          >
+            <Navbar
+              onNavigateHome={navigateToHome}
+              onNavigateStory={navigateToStory}
+              onNavigateArchives={navigateToArchives}
+              onNavigateShop={navigateToShop}
+              onNavigateAbout={navigateToAbout}
+              onOpenBag={() => setIsBagOpen(true)}
+              darkMode={view === 'archives'}
+            />
+            <main className="flex-grow pt-16 min-h-[calc(100vh-theme(spacing.16))]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={view}
+                  initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
+                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                  exit={{ opacity: 0, y: -20, filter: 'blur(5px)' }}
+                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as const }}
+                  className="w-full"
+                >
+                  {view === 'home' && (
+                    <>
+                      <div className="-mt-16">
+                        <Hero />
+                      </div>
+                      <Lookbook />
+                      <Editorial />
+                      <Story onReadStory={navigateToStory} />
+                    </>
+                  )}
+                  {view === 'shop' && (
+                    <ProductList onProductClick={navigateToProduct} />
+                  )}
+                  {view === 'product' && (
+                    <ProductDetail onBack={navigateToShop} />
+                  )}
+                  {view === 'story' && (
+                    <StoryDetail />
+                  )}
+                  {view === 'archives' && (
+                    <Archives />
+                  )}
+                  {view === 'about' && (
+                    <About />
+                  )}
+                </motion.div>
+              </AnimatePresence>
+            </main>
+
+            <ShoppingBag
+              isOpen={isBagOpen}
+              onClose={() => setIsBagOpen(false)}
+              onCheckout={navigateToCheckout}
+              darkMode={view === 'archives'}
+            />
+
+            <Footer darkMode={view === 'archives'} />
+          </motion.div>
         )}
-        {view === 'shop' && (
-          <ProductList onProductClick={navigateToProduct} />
-        )}
-        {view === 'product' && (
-          <ProductDetail onBack={navigateToShop} />
-        )}
-        {view === 'story' && (
-          <StoryDetail />
-        )}
-        {view === 'archives' && (
-          <Archives />
-        )}
-        {view === 'about' && (
-          <About />
-        )}
-      </main>
-      
-      <ShoppingBag 
-        isOpen={isBagOpen} 
-        onClose={() => setIsBagOpen(false)} 
-        onCheckout={navigateToCheckout}
-        darkMode={view === 'archives'}
-      />
-      
-      <Footer darkMode={view === 'archives'} />
+      </AnimatePresence>
     </div>
   );
 };

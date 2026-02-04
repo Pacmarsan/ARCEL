@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #f6f8f7;
+  color: #111815;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.grain-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 50;
+  background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuD_U0S3tqnnuMZNflhNPncv5inFBWZI9VKBxneVQUJEN4KM0z5rEfvy7di3OIWkvM_s_qChu72uO5oVmnr4sHG5eAYGP31IQ7B66ueAWqbJBOYyiyuR9HuBgggHpMX8M2vq6iTMoDMkmD2VT_bGGfK81Yshf8ceA8KItl5-J6GSK728bTFONx_omT2vR_Q6oUeS85LPFBgMBbWo-ST_LHERMfBdIql41cdHGAbZZ1JCvBJw7rHWJQhuze8N0-1KKNu9hdRphrN1Nlo);
+  opacity: 0.15;
+  mix-blend-mode: overlay;
+}
