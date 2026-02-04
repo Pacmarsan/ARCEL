@@ -1,55 +1,50 @@
 
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import { Infinity as InfinityIcon } from 'lucide-react';
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  darkMode?: boolean;
+}
+
+export const Footer: React.FC<FooterProps> = ({ darkMode = false }) => {
+  const bgClass = darkMode ? 'bg-[#1A1A1E] border-white/10' : 'bg-white border-gray-100';
+  const textMainClass = darkMode ? 'text-white' : 'text-[#111815]';
+  const textMutedClass = darkMode ? 'text-[#9e9eb7]' : 'text-[#63756d]';
+  const inputBorderClass = darkMode ? 'border-[#292938] text-white focus:border-archive-blue focus:ring-archive-blue' : 'border-gray-200 text-[#111815] focus:border-[#14b881] focus:ring-[#14b881]';
+  const buttonClass = darkMode ? 'bg-white text-[#1A1A1E] hover:bg-archive-blue hover:text-white' : 'bg-[#111815] text-white hover:bg-[#14b881]';
+
   return (
-    <footer className="mt-10 border-t border-gray-200 bg-[#f6f8f7] pt-16 pb-12">
-      <div className="mx-auto max-w-[1440px] px-6 md:px-10 lg:px-20">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-          <div className="col-span-1 md:col-span-2">
-            <h4 className="text-lg font-bold mb-4">ARCÈL STUDIO</h4>
-            <p className="text-sm text-gray-500 max-w-xs mb-8">
-              Restraint and silhouettes. <br/>Based in Copenhagen.
-            </p>
-            {/* Minimal Newsletter */}
-            <div className="flex items-center gap-2 border-b border-gray-300 pb-2 max-w-xs group focus-within:border-[#14b881]">
-              <input 
-                className="bg-transparent border-none p-0 text-sm w-full focus:ring-0 placeholder-gray-400 focus:outline-none" 
-                placeholder="Updates" 
-                type="email"
-              />
-              <button aria-label="Subscribe" className="text-gray-400 hover:text-[#14b881] transition-colors">
-                <ArrowRight className="h-4 w-4" />
-              </button>
-            </div>
+    <footer className={`w-full border-t pt-20 pb-10 ${bgClass}`}>
+      <div className="max-w-2xl mx-auto px-6 text-center">
+        <div className="mb-8">
+          <div className="flex justify-center mb-4">
+             <InfinityIcon className={`h-8 w-8 ${textMainClass}`} />
           </div>
-          
-          <div className="col-span-1">
-            <h5 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-6">Credits</h5>
-            <ul className="flex flex-col gap-3 text-sm text-gray-600">
-              <li className="flex justify-between w-40"><span>Photography</span> <span className="text-gray-400">L. Rossi</span></li>
-              <li className="flex justify-between w-40"><span>Styling</span> <span className="text-gray-400">M. Chen</span></li>
-              <li className="flex justify-between w-40"><span>Art Direction</span> <span className="text-gray-400">Studio A</span></li>
-            </ul>
-          </div>
-          
-          <div className="col-span-1">
-            <h5 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-6">Connect</h5>
-            <ul className="flex flex-col gap-3 text-sm text-gray-600">
-              <li><a className="hover:text-[#14b881] transition-colors" href="#">Instagram</a></li>
-              <li><a className="hover:text-[#14b881] transition-colors" href="#">Pinterest</a></li>
-              <li><a className="hover:text-[#14b881] transition-colors" href="#">Email</a></li>
-            </ul>
-          </div>
+          <h4 className={`text-xl font-bold tracking-tight mb-2 ${textMainClass}`}>Join the inner circle</h4>
+          <p className={`text-sm ${textMutedClass}`}>Updates on new collections and editorial stories.</p>
         </div>
         
-        <div className="mt-20 flex flex-col md:flex-row justify-between items-center text-xs text-gray-400">
-          <p>© 2024 ARCÈL STUDIO. All rights reserved.</p>
-          <div className="flex gap-4 mt-4 md:mt-0">
-            <a className="hover:text-[#14b881]" href="#">Privacy</a>
-            <a className="hover:text-[#14b881]" href="#">Terms</a>
+        <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto mb-16">
+          <input 
+            type="email" 
+            placeholder="Email address" 
+            className={`flex-1 h-10 px-4 rounded border bg-transparent text-sm placeholder:text-gray-400 focus:ring-1 outline-none transition-all ${inputBorderClass}`}
+          />
+          <button 
+            type="button"
+            className={`h-10 px-6 rounded text-sm font-bold transition-colors ${buttonClass}`}
+          >
+            Subscribe
+          </button>
+        </form>
+
+        <div className={`flex flex-col md:flex-row justify-between items-center text-xs pt-8 border-t ${darkMode ? 'border-white/10 text-gray-500' : 'border-gray-100 text-gray-400'}`}>
+          <div className="flex gap-6 mb-4 md:mb-0">
+            <a href="#" className={`transition-colors ${darkMode ? 'hover:text-white' : 'hover:text-[#111815]'}`}>Instagram</a>
+            <a href="#" className={`transition-colors ${darkMode ? 'hover:text-white' : 'hover:text-[#111815]'}`}>Twitter</a>
+            <a href="#" className={`transition-colors ${darkMode ? 'hover:text-white' : 'hover:text-[#111815]'}`}>Pinterest</a>
           </div>
+          <p>© 2024 ARCÈL STUDIO. All rights reserved.</p>
         </div>
       </div>
     </footer>

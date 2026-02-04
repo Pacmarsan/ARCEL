@@ -3,7 +3,11 @@ import React from 'react';
 import { Leaf } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-export const Story: React.FC = () => {
+interface StoryProps {
+  onReadStory: () => void;
+}
+
+export const Story: React.FC<StoryProps> = ({ onReadStory }) => {
   return (
     <section id="story" className="bg-white py-20">
       <motion.div 
@@ -26,12 +30,12 @@ export const Story: React.FC = () => {
           sustainability and tactile quality above all else.
         </p>
         
-        <a
-          href="#"
+        <button
+          onClick={onReadStory}
           className="inline-block border-b border-black pb-1 text-sm font-bold transition-all hover:border-[#14b881] hover:text-[#14b881]"
         >
           Read our Story
-        </a>
+        </button>
       </motion.div>
     </section>
   );

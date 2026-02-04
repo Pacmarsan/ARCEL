@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
   <head>
@@ -8,7 +9,8 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -18,13 +20,19 @@
           extend: {
             colors: {
               primary: "#14b881",
+              "archive-blue": "#16169c",
               "background-light": "#f6f8f7",
+              "background-subtle": "#F9FAFB",
               "background-dark": "#11211c",
+              "archive-bg": "#1A1A1E",
+              "text-main": "#111815",
+              "text-muted": "#63756d",
               chalk: "#F9F9F7",
             },
             fontFamily: {
               sans: ["Inter", "sans-serif"],
               serif: ["Playfair Display", "serif"],
+              display: ["Space Grotesk", "sans-serif"],
             },
           },
         },
@@ -39,6 +47,19 @@
       body {
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+      }
+      
+      .grain-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 50;
+        background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuD_U0S3tqnnuMZNflhNPncv5inFBWZI9VKBxneVQUJEN4KM0z5rEfvy7di3OIWkvM_s_qChu72uO5oVmnr4sHG5eAYGP31IQ7B66ueAWqbJBOYyiyuR9HuBgggHpMX8M2vq6iTMoDMkmD2VT_bGGfK81Yshf8ceA8KItl5-J6GSK728bTFONx_omT2vR_Q6oUeS85LPFBgMBbWo-ST_LHERMfBdIql41cdHGAbZZ1JCvBJw7rHWJQhuze8N0-1KKNu9hdRphrN1Nlo);
+        opacity: 0.15;
+        mix-blend-mode: overlay;
       }
     </style>
   <script type="importmap">
