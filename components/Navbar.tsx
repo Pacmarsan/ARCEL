@@ -8,6 +8,7 @@ interface NavbarProps {
   onNavigateStory: () => void;
   onNavigateArchives: () => void;
   onNavigateShop: () => void;
+  onNavigateAbout?: () => void;
   onOpenBag?: () => void;
   darkMode?: boolean;
 }
@@ -17,6 +18,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onNavigateStory, 
   onNavigateArchives, 
   onNavigateShop, 
+  onNavigateAbout,
   onOpenBag,
   darkMode = false 
 }) => {
@@ -28,15 +30,15 @@ export const Navbar: React.FC<NavbarProps> = ({
   });
 
   const handleNavClick = (href: string, e: React.MouseEvent) => {
-    if (href === '#story' || href === '#editorial') {
-      e.preventDefault();
+    e.preventDefault();
+    if (href === '#story') {
       onNavigateStory();
-    } else if (href === '#lookbook' || href === '#collections') {
-      e.preventDefault();
+    } else if (href === '#collections') {
       onNavigateArchives();
     } else if (href === '#shop') {
-      e.preventDefault();
       onNavigateShop();
+    } else if (href === '#about' && onNavigateAbout) {
+      onNavigateAbout();
     } else {
       onNavigateHome();
     }

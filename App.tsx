@@ -13,9 +13,10 @@ import { Footer } from './components/Footer';
 import { ShoppingBag } from './components/ShoppingBag';
 import { Checkout } from './components/Checkout';
 import { OrderConfirmed } from './components/OrderConfirmed';
+import { About } from './components/About';
 
 const App: React.FC = () => {
-  const [view, setView] = useState<'home' | 'shop' | 'product' | 'story' | 'archives' | 'checkout' | 'order-confirmed'>('home');
+  const [view, setView] = useState<'home' | 'shop' | 'product' | 'story' | 'archives' | 'checkout' | 'order-confirmed' | 'about'>('home');
   const [isBagOpen, setIsBagOpen] = useState(false);
 
   const navigateToProduct = () => {
@@ -53,6 +54,11 @@ const App: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  const navigateToAbout = () => {
+    setView('about');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   // If in checkout mode, render the isolated checkout view
   if (view === 'checkout') {
     return (
@@ -81,6 +87,7 @@ const App: React.FC = () => {
         onNavigateStory={navigateToStory} 
         onNavigateArchives={navigateToArchives}
         onNavigateShop={navigateToShop}
+        onNavigateAbout={navigateToAbout}
         onOpenBag={() => setIsBagOpen(true)}
         darkMode={view === 'archives'}
       />
@@ -106,6 +113,9 @@ const App: React.FC = () => {
         )}
         {view === 'archives' && (
           <Archives />
+        )}
+        {view === 'about' && (
+          <About />
         )}
       </main>
       
