@@ -21,14 +21,14 @@ export const Hero: React.FC = () => {
     <section id="home" className="relative mx-auto flex h-screen max-w-[1440px] flex-col justify-center px-6 pt-16 md:px-10 lg:px-20 overflow-hidden">
       <div className="grid h-full w-full grid-cols-1 items-center gap-8 md:grid-cols-12 md:gap-16">
         {/* Text Content */}
-        <div className="order-2 flex flex-col gap-8 md:col-span-5 md:order-1 md:gap-10">
+        <div className="order-2 flex flex-col gap-8 md:col-span-6 md:order-1 md:gap-10">
           <motion.div
             initial="hidden"
             animate="visible"
             className="space-y-6 relative z-10"
           >
             <motion.h1
-              className="font-serif text-6xl font-light leading-[0.9] tracking-tight text-text-main md:text-7xl lg:text-8xl xl:text-9xl"
+              className="font-serif text-5xl font-light leading-[0.9] tracking-tight text-text-main md:text-6xl lg:text-7xl xl:text-8xl"
               custom={0}
               variants={fadeUp}
             >
@@ -42,7 +42,7 @@ export const Hero: React.FC = () => {
                   className="absolute bottom-2 left-4 md:left-8 w-full h-3 bg-primary/10 -z-0 origin-left"
                 />
               </span>, <br />
-              balance & <br />
+              balance, & <br />
               silence.
             </motion.h1>
 
@@ -76,9 +76,9 @@ export const Hero: React.FC = () => {
         </div>
 
         {/* Image Content */}
-        <div className="order-1 relative h-[55vh] w-full md:col-span-7 md:order-2 md:h-[90vh] md:-mr-20">
+        <div className="order-1 relative h-[55vh] w-full md:col-span-6 md:order-2 md:h-[90vh] md:-mr-20 p-4 md:p-0">
           <motion.div
-            className="group relative ml-auto h-full w-full overflow-hidden md:w-full"
+            className="group relative ml-auto h-full w-full overflow-hidden rounded-2xl md:rounded-none md:rounded-l-2xl"
             initial={{ clipPath: 'inset(100% 0% 0% 0%)', scale: 1.1 }}
             animate={{ clipPath: 'inset(0% 0% 0% 0%)', scale: 1 }}
             transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] as const, delay: 0.2 }}
@@ -95,16 +95,16 @@ export const Hero: React.FC = () => {
             />
             {/* Gradient Overlay for Text Readability if needed, though split layout handles it. 
                  Added soft gradient for depth */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/0 via-black/0 to-black/5 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-black/0 to-black/5 pointer-events-none" />
 
             {/* Floating Label */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 1.8, duration: 0.8 }}
-              className="absolute bottom-10 right-10 md:right-auto md:left-10 rounded-none border border-white/20 bg-white/10 px-6 py-3 text-xs font-medium tracking-[0.2em] uppercase text-white backdrop-blur-md"
+              className="absolute bottom-10 right-10 md:right-auto md:left-10 rounded-sm bg-white/80 px-4 py-2 text-xs font-bold tracking-[0.1em] uppercase text-text-main backdrop-blur-md shadow-sm"
             >
-              FW / 2026 — Look 01
+              FW / 2024 — Look 01
             </motion.div>
           </motion.div>
         </div>
